@@ -1,14 +1,14 @@
 class Libphonenumber < Formula
   desc "C++ Phone Number library by Google"
   homepage "https://github.com/googlei18n/libphonenumber"
-  url "https://github.com/googlei18n/libphonenumber/archive/v8.8.5.tar.gz"
-  sha256 "80ffbfa415470ef3937721bce8b6a222261789ee599bcc3b989e0d81284e93c9"
+  url "https://github.com/googlei18n/libphonenumber/archive/v8.8.7.tar.gz"
+  sha256 "68c45ab16e090b31c506d542aad7cab10264b9c92c342537d7b7262c960344fb"
 
   bottle do
     cellar :any
-    sha256 "82ebe4f1b1420cecd84d244639b8b7feabdfb2e8ae26328db44323e9684e61d0" => :high_sierra
-    sha256 "1a769c105ca8352de76636be70757959f1cdd8354d0326d2c6533598b26ab557" => :sierra
-    sha256 "2d59ff31f68d19d4df504c4bc701df226c94d2aa3d2405d66a1b85a323289138" => :el_capitan
+    sha256 "81f8c1df249e7dd07312b184e402b5e88f43ae576372fc967799944dd9fae13d" => :high_sierra
+    sha256 "d2d8ff46f04f88b10e523537d6de66ca1f5e2082de39db0da652cb4bb56d3d30" => :sierra
+    sha256 "4baf45a3efd4291957964828f8390d045de7197165eefcd2821b98cdbb85ad6f" => :el_capitan
   end
 
   depends_on "cmake" => :build
@@ -24,6 +24,13 @@ class Libphonenumber < Formula
   end
 
   needs :cxx11
+
+  # Upstream PR from 2 Dec 2017 "Only use lib64 directory on Linux"
+  # See https://github.com/googlei18n/libphonenumber/issues/2044
+  patch do
+    url "https://github.com/googlei18n/libphonenumber/pull/2045.patch?full_index=1"
+    sha256 "4d47d0f92c994ca74e3bbbf020064b2d249d0b01f93bf6f5d82736eb9ed3aa43"
+  end
 
   def install
     ENV.cxx11

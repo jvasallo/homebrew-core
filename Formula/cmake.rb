@@ -1,42 +1,16 @@
 class Cmake < Formula
   desc "Cross-platform make"
   homepage "https://www.cmake.org/"
+  url "https://cmake.org/files/v3.10/cmake-3.10.0.tar.gz"
+  sha256 "b3345c17609ea0f039960ef470aa099de9942135990930a57c14575aae884987"
   head "https://cmake.org/cmake.git"
-
-  stable do
-    url "https://cmake.org/files/v3.9/cmake-3.9.5.tar.gz"
-    sha256 "6220c1683b4e6bb8f38688fa3ffb17a7cf39f36317c2ddfdc3f12f09d086c166"
-
-    # The two patches below fix cmake for undefined symbols check on macOS 10.12
-    # They can be removed for cmake >= 3.10
-    if MacOS.version == :sierra && DevelopmentTools.clang_build_version >= 900
-      patch do
-        url "https://gitlab.kitware.com/cmake/cmake/commit/96329d5dffdd5a22c5b4428119b5d3762a8857a7.diff"
-        sha256 "c394d1b6e59e9bcf8e5db8a0a1189203e056c230a22aa8d60079fea7be6026bd"
-      end
-
-      patch do
-        url "https://gitlab.kitware.com/cmake/cmake/commit/f1a4ecdc0c62b46c90df5e8d20e6f61d06063894.diff"
-        sha256 "d32fa9c342d88e53b009f1fbeecc5872a79eec4bf2c8399f0fc2eeda5b0a4f1e"
-      end
-
-      patch do
-        url "https://raw.githubusercontent.com/Homebrew/formula-patches/105060cf885/cmake/cmake-backport-kwsys-utimensat-fix.diff"
-        sha256 "3e8aa1a6a1039e7a9be6fd0ca6abf09ca00fb07e1275bb3e55dc44b8b9dc746c"
-      end
-    end
-  end
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "11031d0edee8240e43fef2884956462a3e0dfcc1e89972161e52af0cb6580f7e" => :high_sierra
-    sha256 "6f4c377f8efa511a4a8f0045ecd3b2a2dcc7c14326d7016c37e5f98722276bdb" => :sierra
-    sha256 "08a66044e187a0b4e69b8e26f4a557c4c7d4a9937d59c3aa5dd4a117d21bd483" => :el_capitan
-  end
-
-  devel do
-    url "https://cmake.org/files/v3.10/cmake-3.10.0-rc4.tar.gz"
-    sha256 "4805df35a6313bd8bbf13d93f6fe9fcd16f54514564ec126d3ed7a359b637619"
+    rebuild 1
+    sha256 "fa4888d1d009e32398d0ec312b641f86f6eac53cdfd13e5dae57c07922c8033c" => :high_sierra
+    sha256 "5a6c5af53ce59a89d3f31880fdcc169359ec6ad49daa78ebcaf333c32f481590" => :sierra
+    sha256 "5e1d7d0abd668e008a695f51778d52b06a229ba6fef5014397f8dab9e4578eca" => :el_capitan
   end
 
   option "without-docs", "Don't build man pages"
@@ -68,7 +42,7 @@ class Cmake < Formula
       args << "--sphinx-man" << "--sphinx-build=#{Formula["sphinx-doc"].opt_bin}/sphinx-build"
     end
 
-    system "./bootstrap", *args
+    system "./bootstrap", *args, "--", "-DCMAKE_BUILD_TYPE=Release"
     system "make"
     system "make", "install"
 

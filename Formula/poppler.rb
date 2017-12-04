@@ -1,13 +1,13 @@
 class Poppler < Formula
   desc "PDF rendering library (based on the xpdf-3.0 code base)"
   homepage "https://poppler.freedesktop.org/"
-  url "https://poppler.freedesktop.org/poppler-0.61.0.tar.xz"
-  sha256 "53cde17a2afa3b73eb8b209d24e4369b52bfac444065dbb0a8cbcc7356582b7f"
+  url "https://poppler.freedesktop.org/poppler-0.62.0.tar.xz"
+  sha256 "5b9a73dfd4d6f61d165ada1e4f0abd2d420494bf9d0b1c15d0db3f7b83a729c6"
 
   bottle do
-    sha256 "cc93d0fe33c51c4b34343f5a0741dd15f5ab1267758601d82a58bdcbf7e0ee12" => :high_sierra
-    sha256 "3840e4e782fb50e889b7840c93ab338464c296f8107f3a0cbc33f3614dadf94c" => :sierra
-    sha256 "c04f2f8df8b1c79b40cc15ca192ad06b23f73d6f02114a20cd9dfc264354e4df" => :el_capitan
+    sha256 "e7ef8133d2a55b7b9d060e1bb39e85daa421805315b78cdaac2eb74e6ee7e50b" => :high_sierra
+    sha256 "67553e08dc541aa5db51e480b768a289095cf236279fe46defb4061783967bf8" => :sierra
+    sha256 "3797b24ecd422d96b7418c942c26937dd14af4e4e0b135c15cb1164a109ab5af" => :el_capitan
   end
 
   option "with-qt", "Build Qt5 backend"
@@ -45,14 +45,12 @@ class Poppler < Formula
   def install
     ENV.cxx11 if build.with?("qt") || MacOS.version < :mavericks
 
-    args = std_cmake_args + %W[
+    args = std_cmake_args + %w[
       -DENABLE_XPDF_HEADERS=ON
       -DENABLE_GLIB=ON
       -DBUILD_GTK_TESTS=OFF
       -DWITH_GObjectIntrospection=ON
       -DENABLE_QT4=OFF
-      -DCMAKE_INSTALL_INCLUDEDIR=#{include}
-      -DCMAKE_INSTALL_LIBDIR=#{lib}
     ]
 
     if build.with? "qt"
@@ -64,7 +62,7 @@ class Poppler < Formula
     if build.with? "little-cms2"
       args << "-DENABLE_CMS=lcms2"
     else
-      args << "-DENABLE_CMS=OFF"
+      args << "-DENABLE_CMS=none"
     end
 
     system "cmake", ".", *args

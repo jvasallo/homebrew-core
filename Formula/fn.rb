@@ -1,14 +1,14 @@
 class Fn < Formula
   desc "Command-line tool for the fn project"
   homepage "https://fnproject.github.io"
-  url "https://github.com/fnproject/cli/archive/0.4.13.tar.gz"
-  sha256 "1b15c40734c2a09123416446288d235817757fa7ba123eb24b306fd453c631fa"
+  url "https://github.com/fnproject/cli/archive/0.4.25.tar.gz"
+  sha256 "1287c183007426618631d397342319137a3d836d30082e0551b305eaf02f6f3b"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "82752367c94be8652378576e6401e6bcf322fb6251d7eb4df5c1da3d3199711a" => :high_sierra
-    sha256 "2aa3aa373c410ee000238424007684a650b550a9b6fc2627d0db308c14b2d666" => :sierra
-    sha256 "b028666f98b1e8fa037edee3e58edc4612c0e5c11b6ebc5b5463abf6b08dcfe0" => :el_capitan
+    sha256 "56ba47e2134dd50d2a9a9198c787f89c6bfc947170cd26bc5597fe72195be201" => :high_sierra
+    sha256 "a1e0ea1291fccc30cd8e7f8c56e016fce17afedc5139c6d27e5aa43e408762f7" => :sierra
+    sha256 "94e98c58b36d6a923341bb76e287b9fea13e3747919aa0785d90c185f16192fa" => :el_capitan
   end
 
   depends_on "go" => :build
@@ -47,7 +47,7 @@ class Fn < Formula
       end
     end
     begin
-      ENV["API_URL"] = "http://localhost:#{port}"
+      ENV["FN_API_URL"] = "http://localhost:#{port}"
       ENV["FN_REGISTRY"] = "fnproject"
       expected = "/myfunc created with fnproject/myfunc"
       output = shell_output("#{bin}/fn routes create myapp myfunc --image fnproject/myfunc:0.0.1")
